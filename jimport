@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# find classes in list of jar files
+# return jar-barename prefixed list of space delimited full paths of java classes which name is argument 1.
+
+if [ -z $1 ]; then
+	exit 2
+fi
+echoImport() { 
+	if [ -f $2 ];then
+		class=`jar -tf $2|grep /${1}.class`
+		if [ -n "${class}" ];then
+			jarFile=${2##*/}
+			echo ${jarFile%.*}:${class}
+		fi
+			return 0
+	fi
+}
+
+jeditSettings=/home/bvirk/.jedit
+
+echoImport $1 /usr/lib/java/jre/lib/rt.jar
+echoImport $1 /usr/lib/java/jre/lib/ext/nashorn.jar
+echoImport $1 /usr/local/share/jEdit/5.5.0/jedit.jar
+echoImport $1 ${jeditSettings}/jars/AbsPath.jar
+echoImport $1 ${jeditSettings}/jars/TxtConvPlugin.jar
+echoImport $1 ${jeditSettings}/jars/txtmark.jar
+echoImport $1 ${jeditSettings}/jars/jsoup-1.11.3.jar
