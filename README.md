@@ -1,3 +1,3 @@
 ## Handsome scripts
 
-Scripts that has some of those features
+Scripts that has some of those features.
