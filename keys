@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# opens midnight commander as another user in a certain workspace
+
+cd /home/collector
+xhost +si:localuser:collector
+wmctrl -s 4
+sudo -u collector exo-open --launch TerminalEmulator mc
