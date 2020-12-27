@@ -1,0 +1,4 @@
+#!/bin/bash
+# opens url in firefox profile at dedicated workspace with reduced scheduling priority with redirecting stderr and stdout to dev/null
+wmctrl -s0
+nice -n 20 firefox -p bws $1 >/dev/null 2>&1 &

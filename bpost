@@ -1,0 +1,4 @@
+#!/bin/bash
+# opens url in firefox profile at dedicated workspace with reduced scheduling priority
+wmctrl -s0
+nice -n19 firefox -p coop https://post.borger.dk &
