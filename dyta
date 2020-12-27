@@ -1,0 +1,25 @@
+#!/bin/bash
+# get audio file using youtube-dl
+ytlink=`xclip -o`
+ytlink=${ytlink%%&*}
+if [ "$#" -gt 0 ]; then
+	chosenFormat="-f $1"
+else
+	youtubeDlTmpFile=/tmp/youtube-dl-F-responce
+	echo getting video mode for $ytlink
+	youtube-dl -F $ytlink >$youtubeDlTmpFile
+	chosenFormat="-f `tail -n +5 $youtubeDlTmpFile|grep audio |tail -n 1|sed 's/ .*//'`"
+fi
+execMP="--exec audacious"
+
+downloaddir=/mnt/hede/home/multimedia/audio/play
+if [ -d "$downloaddir" ]; then
+    cd $downloaddir
+fi
+
+#echo chosen format: $chosenFormat has length ${#chosenFormat}
+if [ "${#chosenFormat}" -lt 4 ]; then
+	cat  $youtubeDlTmpFile
+else
+	youtube-dl --restrict-filenames  $chosenFormat $ytlink
+fi
