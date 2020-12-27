@@ -1,2 +1,0 @@
-#! /bin/bash
-java -jar /usr/bin/pdfbox-app-2.0.17.jar "$@"
