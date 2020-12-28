@@ -1,0 +1,8 @@
+#!/bin/bash
+# synchronise wan ftp dir using lftp
+# upload to mashine.domain.tld
+sourceparentdir=/mnt/hede/www/phptinyweb/
+sourcedir=domain/
+destdir=www/destdomain.tld/
+cd $sourceparentdir
+lftp -d -c 'set ftp:ssl-allow true ; set ssl:verify-certificate no; open -u username,"password" -e "mirror -R -e --delete -n --no-symlinks '"$sourcedir $destdir"'" mashine.domain.tld'
