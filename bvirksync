@@ -1,7 +1,0 @@
-#!/bin/bash
-# synchronise wan ftp dir using lftp
-sourceparentdir=/mnt/hede/www/phptinyweb/
-sourcedir=domain/
-destdir=www/bvirk.dk/
-cd $sourceparentdir
-lftp -d -c 'set ftp:ssl-allow true ; set ssl:verify-certificate no; open -u bvirk,"Xt=$;JwTX]MKF<" -e "mirror -R -e --delete -n --no-symlinks '"$sourcedir $destdir"'" web12.gigahost.dk'
