@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# download and play youtube video - a youtube-dl frontend and mplayer invocation
+
+downloaddir=/mnt/hede/home/multimedia/video/play
+if [ -d "$downloaddir" ]; then
+    cd $downloaddir
+fi
+rm -f 1arg
+
+ssh hede ~/bin/ytdlwfn $1
+
+# this is the script at hede:~/bin/ytdlwfn - it is ubuntu equipped  
+
+#@hede  downloaddir=/home/multimedia/video/play
+#@hede  cd $downloaddir
+#@hede  PATH=$PATH:/snap/bin
+#@hede  
+#@hede  if [ "$#" -gt 1 ]; then
+#@hede  	chosenFormat="-f $2"
+#@hede  else
+#@hede  	youtubeDlTmpFile=/tmp/youtube-dl-F-responce
+#@hede  	echo getting video mode for $1
+#@hede  	youtube-dl -F $1 >$youtubeDlTmpFile
+#@hede  	# choose code of first line being video with sound
+#@hede  	chosenFormat="-f `grep mp4 < $youtubeDlTmpFile |grep -v 'audio only'|grep -v 'video only'|head -n 1|sed 's/ .*//'`"
+#@hede  fi
+#@hede  
+#@hede  
+#@hede  # echo chosen format: $chosenFormat has length ${#chosenFormat}
+#@hede  if [ "${#chosenFormat}" -lt 4 ]; then
+#@hede  	# if something got wrong and no lines with chosenformat exists then print youtube-dl-F-responce
+#@hede      cat  $youtubeDlTmpFile
+#@hede  else
+#@hede  	youtube-dl --restrict-filenames --exec /home/bvirk/bin/1arg21arg $chosenFormat $1
+#@hede  fi
+
+sleep 2
+if [ ! -f 1arg ]; then
+    echo -n Waiting
+fi
+while [ ! -f 1arg ]; do
+    echo -n .
+    sleep 4
+done
+mplayer `cat 1arg`
