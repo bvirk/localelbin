@@ -1,0 +1,22 @@
+#! /usr/bin/java bsh.Interpreter
+/** 
+ * Lowercamelcases youtube-dl downloadet files in current directory
+ */
+
+String wd = System.getProperties().getProperty("user.dir")+"/";
+
+String lowerCamelize(String pathName) {
+    String fil = pathName.replaceAll(".+/","");
+    String ext = fil.replaceAll("^.+\\.","");
+    boolean isFirst=true;
+    String result="";
+    for(String word : fil.replaceAll("[-\\.].+$","").split("_")) {
+        result+= isFirst ? word.toLowerCase() : word.substring(0,1).toUpperCase()+word.substring(1);
+        isFirst=false;
+    }
+    return pathName.replaceAll("[^/]+$","")+result+"."+ext;
+}
+
+for (File f : new File(wd).listFiles())
+    if (f.getName().endsWith(".mp4"))
+        f.renameTo(new File(lowerCamelize(f.getPath())));
