@@ -1,0 +1,49 @@
+#!/usr/bin/ruby -w
+require "yaml.rb"
+#YAML::ENGINE.yamler='syck'
+=begin
+---
+p1: http://live-icy.gss.dr.dk/A/A03L.mp3.m3u
+p2: http://live-icy.gss.dr.dk/A/A04L.mp3.m3u
+p3: http://live-icy.gss.dr.dk/A/A05L.mp3.m3u
+p4: http://live-icy.gss.dr.dk/A/A11L.mp3.m3u
+p5: http://live-icy.gss.dr.dk/A/A25L.mp3.m3u
+p6: http://live-icy.gss.dr.dk/A/A29L.mp3.m3u
+p7: http://live-icy.gss.dr.dk/A/A21L.mp3.m3u
+p8: http://live-icy.gss.dr.dk/A/A22L.mp3.m3u
+24syv: http://live.taleradio.dk/Web
+anr: http://www.listenlive.eu/dk_anr.m3u
+gofm: http://www.listenlive.eu/dk_gofm.m3u
+guld: http://stream.wlmm.dk/listen.pls?sid=1
+myrock: http://www.listenlive.eu/myrock.m3u
+nastved: http://stream.vibestream.dk:8015/stream.m3u
+nord: http://www.listenlive.eu/dk_radionord.m3u
+bbc3: http://www.listenlive.eu/bbcradio3.m3u
+central: http://s4.xrad.io:8010/listen.pls
+---
+------
+=end
+fc=""; inblk=false; pastblk=true
+IO.foreach(__FILE__){|line| fc << line if inblk && pastblk; pastblk=false if /^\-\-\-\-\-\-/ =~line; inblk= /^=begin/ =~ line if not inblk;  } 
+
+pgs=YAML.load(fc)
+
+def syntax
+puts <<SYNTAXDOC    
+syntax: stream program
+stream -help
+stream -show
+SYNTAXDOC
+end
+
+if ARGV.length > 0 then
+    case (ARGV[0])
+        when '-help' then syntax
+        when '-show' then pgs.keys.each do |k| puts k end
+        else 
+            system("audacious "+ pgs[ARGV[0]]+" &") if pgs[ARGV[0]] != nil
+    end
+else
+   syntax
+end
+
