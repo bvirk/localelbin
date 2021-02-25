@@ -8,7 +8,7 @@ wmctrl -s0
 # reduced scheduling priority with redirecting stderr and stdout 'mumbo jumbo' to dev/null and freeing starting terminal
 
 # firefox profile 
-#nice -n 20 firefox -p bws $1 >/dev/null 2>&1 &
+nice -n 20 firefox -p bws $1 >/dev/null 2>&1 &
 
 #slimjet
-nice -n 20 slimjet $1 >/dev/null 2>&1 &
+#nice -n 20 slimjet $1 >/dev/null 2>&1 &

@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # download and play youtube video - a youtube-dl frontend and mplayer invocation
+# syntax:
+#   ytdlremote youtube_url [format_code]
 
 downloaddir=/mnt/hede/home/multimedia/video/play
 if [ -d "$downloaddir" ]; then
@@ -9,9 +11,9 @@ fi
 rm -f 1arg
 
 ssh hede ~/bin/ytdlwfn $1
+# following is hede:~/bin/ytdlwfn (remote script called in line above)
 
-# this is the script at hede:~/bin/ytdlwfn - it is ubuntu equipped  
-
+#@hede  #!/bin/bash
 #@hede  downloaddir=/home/multimedia/video/play
 #@hede  cd $downloaddir
 #@hede  PATH=$PATH:/snap/bin
