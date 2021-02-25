@@ -1,0 +1,4 @@
+#!/bin/bash
+# invoked from shortcut key: shift+ctrl+>
+#shift to workspace 3
+wmctrl -s 2
