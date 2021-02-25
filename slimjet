@@ -1,0 +1,3 @@
+#!/bin/bash
+# terminal exposed starter
+xdg-open /usr/share/applications/slimjet.desktop
