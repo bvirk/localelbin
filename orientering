@@ -7,7 +7,7 @@ commontail=".mp3?highestBitrate=True&podcastDownload=True"
 commonhead="https://www.dr.dk/mu/MediaRedirector/WithFileExtension/"
 progOrientering="orientering-"
 if date -d $1 >/dev/null 2>&1 && [ "${#1}" = "10" ]  ;  then
-	audacious "${commonhead}${progOrientering}${1}${commontail}"
+	audacious "${commonhead}${progOrientering}${1}${commontail}" &
 else
 	echo "$1 ? - use yyyy-mm-dd"
 fi
