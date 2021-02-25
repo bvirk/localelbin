@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# downloads, convert youtube video to .ogg sound file and play it
+# syntax: 
+#   ytdlaudioremote youtube_link [format_code]
+
+downloaddir=/mnt/hede/home/multimedia/audio/youtubeMusic
+if [ -d "$downloaddir" ]; then
+    cd $downloaddir
+fi
+rm -f 1arg
+ssh hede ~/bin/ytdlaudiowfn $1
+# following is hede:~/bin/ytdlaudiowfn (remote script called in line above)
+
+#@hede  #!/bin/bash
+#@hede downloaddir=/home/multimedia/audio/youtubeMusic
+#@hede cd $downloaddir
+#@hede PATH=$PATH:/snap/bin
+#@hede 
+#@hede if [ "$#" -gt 1 ]; then
+#@hede 	chosenFormat="-f $2"
+#@hede else
+#@hede 	youtubeDlTmpFile=/tmp/youtube-dl-F-responce
+#@hede 	echo getting  audio mode for $1
+#@hede 	youtube-dl -F $1 >$youtubeDlTmpFile
+#@hede 	# choose code of first line being video with sound
+#@hede 	chosenFormat="-f `grep m4a < $youtubeDlTmpFile |grep "audio only"|head -n 1|sed 's/ .*//'`"
+#@hede fi
+#@hede 
+#@hede 
+#@hede # echo chosen format: $chosenFormat has length ${#chosenFormat}
+#@hede if [ "${#chosenFormat}" -lt 4 ]; then
+#@hede 	# if something got wrong and no lines with chosenformat exists then print youtube-dl-F-responce
+#@hede     cat  $youtubeDlTmpFile
+#@hede else
+#@hede 	youtube-dl --restrict-filenames --exec /home/bvirk/bin/1arg21arg $chosenFormat $1
+#@hede fi
+
+sleep 2
+if [ ! -f 1arg ]; then
+    echo -n Waiting
+fi
+while [ ! -f 1arg ]; do
+    echo -n .
+    sleep 4
+done
+inputfile=`cat 1arg`
+outputfile="${inputfile%.*}"
+outputfile="${outputfile:0:20}.ogg"
+ffmpeg -i $inputfile $outputfile
+rm $inputfile
+audacious $outputfile &
