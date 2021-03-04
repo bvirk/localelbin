@@ -1,4 +1,4 @@
 #!/bin/bash
 # local command that delegates to mashine hede, an equal named command
 # the remote command: tiny automates some website creatings and modifications
-ssh hede /home/bvirk/bin/tiny $@
+ssh hede /home/bvirk/bin/tt $@
