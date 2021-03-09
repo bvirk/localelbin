@@ -1,0 +1,14 @@
+#!/bin/bash
+url="http://tiny/tt.php"
+ttScript="/tmp/ttscript"
+headersfile="/tmp/curlheaders"
+lenPreRemove=$(( ${#1} + 1 ))
+allArgs=$@
+curl -D $headersfile -G --data-urlencode "cmd=$1" --data-urlencode "parms=${allArgs:$lenPreRemove}" $url 1>$ttScript 2>/dev/null
+if [ `head -n 1 $ttScript` == "#!/bin/bash" ] && [ `head -n 2 $ttScript | grep -c "<br />"` != 1 ]; then
+    chmod  +x $ttScript
+    $ttScript
+else
+    cat $ttScript
+fi
+#cat $headersfile
