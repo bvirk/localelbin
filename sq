@@ -1,14 +1,14 @@
 #!/bin/bash
-url="http://tiny/tt.php"
-ttScript="/tmp/ttscript"
+serverScript="http://tiny/sq.php"
+sqScript="/tmp/sqscript"
 headersfile="/tmp/curlheaders"
 lenPreRemove=$(( ${#1} + 1 ))
 allArgs=$@
-curl -D $headersfile -G --data-urlencode "cmd=$1" --data-urlencode "parms=${allArgs:$lenPreRemove}" $url 1>$ttScript 2>/dev/null
-if [ `head -n 1 $ttScript` == "#!/bin/bash" ] && [ `head -n 2 $ttScript | grep -c "<br />"` != 1 ]; then
-    chmod  +x $ttScript
-    $ttScript
+curl -s -D $headersfile -G --data-urlencode "cmd=$1" --data-urlencode "parms=${allArgs:$lenPreRemove}" $serverScript 1>$sqScript 
+if [ `head -n 1 $sqScript` == "#!/bin/bash" ] && [ `head -n 2 $sqScript | grep -c "<br />"` != 1 ]; then
+    chmod  +x $sqScript
+    $sqScript
 else
-    cat $ttScript
+    cat $sqScript
 fi
 #cat $headersfile
