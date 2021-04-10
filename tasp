@@ -1,0 +1,23 @@
+#!/bin/sh
+# mirroring and running curl
+# requesting argument given script of $url location of iis asp dir after syncing the asp file 
+# with its origin at $localdir
+
+curlRespondfile=/tmp/curlRespond
+headersfile="/tmp/curlheaders"
+remoteftp=eee/ftpdata
+localdir=/var/www/eee
+url=http://eee/data/
+scriptFile=/tmp/lftp.rsp
+echo open -u wp,adgang $remoteftp >$scriptFile
+relativeLocaldir=${localdir#/}
+echo mirror -R --no-symlinks >>$scriptFile #${relativeLocaldir%/*}/${localdir##/*/}/ 
+cd /var/www/eee
+lftp -f $scriptFile
+curl -s -D $headersfile $url $1 1>$curlRespondfile
+errorMsg=`grep "Der opstod en Microsoft VBScript" $curlRespondfile`
+if [ ${#errorMsg} -gt 0 ]; then 
+    echo $errorMsg
+else
+    cat $curlRespondfile
+fi
