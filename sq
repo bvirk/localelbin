@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/bash -f
 serverScript="http://tiny/sq.php"
 sqScript="/tmp/sqscript"
 headersfile="/tmp/curlheaders"
 lenPreRemove=$(( ${#1} + 1 ))
 allArgs=$@
-curl -s -D $headersfile -G --data-urlencode "cmd=$1" --data-urlencode "parms=${allArgs:$lenPreRemove}" $serverScript 1>$sqScript 
-if [ `head -n 1 $sqScript` == "#!/bin/bash" ] && [ `head -n 2 $sqScript | grep -c "<br />"` != 1 ]; then
+curl -s -D $headersfile -G --data-urlencode "cmd=$1" --data-urlencode "parms=${allArgs:$lenPreRemove}" --data-urlencode "regex=$regex" $serverScript 1>$sqScript 
+if [[ `head -n 1 $sqScript` == "#!/bin/bash" ]] && [[ `head -n 2 $sqScript | grep -c "<br />"` != 1 ]]; then
     chmod  +x $sqScript
     $sqScript
 else
